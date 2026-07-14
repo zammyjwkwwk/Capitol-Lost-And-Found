@@ -1,0 +1,205 @@
+/* ===== Base (Desktop default) ===== */
+body {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f9;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8B0000;
+  padding: 1rem 2rem;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('cu-bg.png') center/cover no-repeat; /* <-- your CU campus photo */
+  filter: blur(3px); /* subtle blur for desktop */
+  transform: scale(1.05);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35); /* overlay for readability */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+/* Features Section */
+.features {
+  padding: 3rem;
+  text-align: center;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.feature-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 2rem;
+}
+
+.feature-card img {
+  height: 80px;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  color: #8B0000;
+  margin-bottom: 0.5rem;
+}
+
+/* Dashboard Item Grid */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.item-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* ===== Tablet (medium screens) ===== */
+@media (max-width: 1024px) {
+  body {
+    font-size: 15px;
+  }
+
+  .navbar ul {
+    gap: 1rem;
+  }
+
+  .hero {
+    height: 350px;
+  }
+
+  .hero::before {
+    filter: blur(4px); /* slightly stronger blur for tablets */
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Mobile (phones) ===== */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    background: #8B0000;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .navbar ul li a {
+    color: #fff;
+    display: block;
+    padding: 0.5rem;
+  }
+
+  .hero {
+    height: 250px;
+  }
+
+  .hero::before {
+    filter: blur(2px); /* lighter blur for phones */
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+}

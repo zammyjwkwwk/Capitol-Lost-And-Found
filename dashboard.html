@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Campus Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="cu-logo.jpg" alt="CU Logo" class="logo-img">
+      <span>Capitol University</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="report-lost.html">Report Lost Item</a></li>
+        <li><a href="report-found.html">Report Found Item</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== Dashboard ===== -->
+  <section class="dashboard">
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <img src="student-avatar.png" alt="Profile" class="profile-img">
+      <div>
+        <h2 id="welcomeUser">Hello, Student!</h2>
+        <p>Student ID: 2026-001</p>
+      </div>
+      <button class="btn-logout">Logout</button>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="dashboard-search">
+      <input type="text" id="searchBar" placeholder="Search items...">
+      <select id="filterCategory">
+        <option value="">All Categories</option>
+        <option value="Wallet">Wallet</option>
+        <option value="Phone">Phone</option>
+        <option value="Laptop">Laptop</option>
+        <option value="Bag">Bag</option>
+        <option value="Keys">Keys</option>
+        <option value="Books">Books</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Accessories">Accessories</option>
+        <option value="Electronics">Electronics</option>
+      </select>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="lost">Lost Items</button>
+      <button class="tab" data-tab="found">Found Items</button>
+      <button class="tab" data-tab="reports">My Reports</button>
+    </div>
+
+    <!-- Activity Timeline -->
+    <h3>Recent Activity</h3>
+    <ul class="timeline" id="activityFeed">
+      <!-- Activity items will be injected dynamically -->
+    </ul>
+
+    <!-- Item Grid -->
+    <div class="item-grid" id="itemGrid">
+      <!-- Items will be injected dynamically -->
+    </div>
+
+    <!-- User Reports -->
+    <div class="item-grid" id="myReports">
+      <!-- User’s own items will appear here -->
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" title="Add Report">+</button>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <img src="cu-logo.jpg" alt="CU Logo" class="footer-logo">
+    <p>&copy; 2026 Capitol University | Campus Lost & Found</p>
+    <p>Contact: lostfound@capitol.edu</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>

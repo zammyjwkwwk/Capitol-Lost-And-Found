@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Lost Item | Campus Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/images/cu-logo.png" alt="CU Logo" class="logo-img">
+      <span>Capitol University</span>
+    </div>
+  </header>
+
+  <!-- Form Section -->
+  <section class="form-section">
+    <h1>Report Lost Item</h1>
+    <p>Please fill out the details below to report your lost item.</p>
+
+    <form id="lostItemForm">
+      <div class="form-group">
+        <label for="studentName">Full Name</label>
+        <input type="text" id="studentName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="studentID">Student ID</label>
+        <input type="text" id="studentID" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemTitle">Item Title</label>
+        <input type="text" id="itemTitle" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemDescription">Description</label>
+        <textarea id="itemDescription" rows="4" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="itemCategory">Category</label>
+        <select id="itemCategory" required>
+          <option value="">Select Category</option>
+          <option>Wallet</option>
+          <option>Phone</option>
+          <option>Laptop</option>
+          <option>Bag</option>
+          <option>Keys</option>
+          <option>Umbrella</option>
+          <option>Books</option>
+          <option>Calculator</option>
+          <option>Others</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="itemLocation">Last Seen Location</label>
+        <input type="text" id="itemLocation" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemDate">Date Lost</label>
+        <input type="date" id="itemDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemImage">Upload Image</label>
+        <input type="file" id="itemImage" accept="image/*">
+        <img id="previewImage" src="assets/images/default-item.png" alt="Preview" class="preview">
+      </div>
+
+      <button type="submit" class="btn-primary">Submit Report</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <img src="assets/images/cu-logo.png" alt="CU Logo" class="footer-logo">
+    <p>&copy; 2026 Capitol University | Campus Lost & Found</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
