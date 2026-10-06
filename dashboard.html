@@ -18,10 +18,9 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="report-lost.html">Report Lost Item</a></li>
-        <li><a href="report-found.html">Report Found Item</a></li>
-        <li><a href="categories.html">Categories</a></li>
-        <li><a href="login.html">Logout</a></li>
+        <li><a href="report-lost.html">Report</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="login.html" class="btn-logout">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -31,10 +30,10 @@
 
     <!-- Profile Header -->
     <div class="profile-header">
-      <img src="student-avatar.png" alt="Profile" class="profile-img">
+      <img src="cu-logo.jpg" alt="Profile" class="profile-img">
       <div>
         <h2 id="welcomeUser">Hello, Student!</h2>
-        <p>Student ID: 2026-001</p>
+        <p>Campus lost and found</p>
       </div>
       <button class="btn-logout">Logout</button>
     </div>
@@ -50,17 +49,12 @@
         <option value="Bag">Bag</option>
         <option value="Keys">Keys</option>
         <option value="Books">Books</option>
+        <option value="Umbrella">Umbrella</option>
+        <option value="Calculator">Calculator</option>
         <option value="Clothing">Clothing</option>
         <option value="Accessories">Accessories</option>
         <option value="Electronics">Electronics</option>
       </select>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active" data-tab="lost">Lost Items</button>
-      <button class="tab" data-tab="found">Found Items</button>
-      <button class="tab" data-tab="reports">My Reports</button>
     </div>
 
     <!-- Activity Timeline -->
@@ -69,18 +63,13 @@
       <!-- Activity items will be injected dynamically -->
     </ul>
 
-    <!-- Item Grid -->
+    <!-- All Reports -->
     <div class="item-grid" id="itemGrid">
-      <!-- Items will be injected dynamically -->
-    </div>
-
-    <!-- User Reports -->
-    <div class="item-grid" id="myReports">
-      <!-- User’s own items will appear here -->
+      <!-- All lost, found, and claimed items will be injected dynamically -->
     </div>
 
     <!-- Floating Action Button -->
-    <button class="fab" title="Add Report">+</button>
+    <a class="fab" href="report-lost.html" title="Add Report" aria-label="Add report">+</a>
   </section>
 
   <!-- ===== Footer ===== -->

@@ -46,12 +46,27 @@ async function ensureSchema(sql) {
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         )
       `;
+      await sql`ALTER TABLE reports ALTER COLUMN status SET DEFAULT 'not_claimed'`;
+      await sql`
+        UPDATE reports
+        SET status = 'not_claimed'
+        WHERE status NOT IN ('not_claimed', 'claimed')
+      `;
       await sql`
         CREATE TABLE IF NOT EXISTS claims (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           report_id UUID NOT NULL UNIQUE REFERENCES reports(id) ON DELETE CASCADE,
           claimant_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
           status TEXT NOT NULL DEFAULT 'pending',
+          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        )
+      `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS comments (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          report_id UUID NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+          user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          body TEXT NOT NULL,
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         )
       `;

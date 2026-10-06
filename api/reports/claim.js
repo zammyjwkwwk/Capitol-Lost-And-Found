@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
     `;
     if (!report) return send(res, 404, { error: 'Report not found.' });
     if (report.owner_id === user.id) return send(res, 403, { error: 'You cannot claim your own report.' });
-    if (report.type !== 'found' || report.status !== 'open') {
+    if (report.type !== 'found' || !['open', 'not_claimed'].includes(report.status)) {
       return send(res, 409, { error: 'This item is not currently available to claim.' });
     }
 

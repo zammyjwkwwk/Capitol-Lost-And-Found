@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
       )
       RETURNING id, type, title, category, location,
         to_char(item_date, 'YYYY-MM-DD') AS date,
-        description, status, image, owner_id AS "ownerId",
+        description, 'not_claimed' AS status, image, owner_id AS "ownerId",
         created_at AS "createdAt"
     `;
     return send(res, 201, { report });

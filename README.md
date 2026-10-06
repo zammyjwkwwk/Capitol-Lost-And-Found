@@ -21,8 +21,14 @@ connection. Existing browser-only accounts and sample reports are not migrated.
   `POST /api/reports`.
 - Authenticated users can request a claim with
   `POST /api/reports/claim?id=<report-id>`.
+- `GET` and `POST /api/reports/<report-id>/comments` list and add comments.
+- The report owner can set `not_claimed` or `claimed` with
+  `POST /api/reports/status?id=<report-id>`.
 
 Passwords are hashed on the server and session tokens are stored hashed in the
 database. Image selection currently previews locally; uploaded files are not
 stored. Email verification, password recovery, moderation tools, and login
 rate-limiting still need to be added before treating this as a production service.
+
+The home page accepts a YouTube link and embeds the video using YouTube's
+privacy-enhanced embed host. The About page credits the Lost and Found Team.

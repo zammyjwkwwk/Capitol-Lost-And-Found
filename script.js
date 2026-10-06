@@ -67,6 +67,49 @@ function initSlideshow() {
   showSlide(0);
 }
 
+function initYouTubeEmbed() {
+  const form = document.getElementById('videoForm');
+  const input = document.getElementById('youtubeUrl');
+  const frameContainer = document.getElementById('videoFrame');
+  const message = document.getElementById('videoMessage');
+  if (!form || !input || !frameContainer || !message) return;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let videoId = '';
+    try {
+      const url = new URL(input.value.trim());
+      const host = url.hostname.toLowerCase();
+      if (host === 'youtu.be') {
+        videoId = url.pathname.split('/').filter(Boolean)[0] || '';
+      } else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtube-nocookie.com', 'www.youtube-nocookie.com'].includes(host)) {
+        videoId = url.searchParams.get('v') || url.pathname.split('/').filter(Boolean).at(-1) || '';
+      }
+    } catch {
+      videoId = '';
+    }
+
+    if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) {
+      frameContainer.replaceChildren();
+      frameContainer.hidden = true;
+      message.textContent = 'Enter a valid YouTube video link to display the embed.';
+      message.classList.add('error');
+      return;
+    }
+
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}`;
+    iframe.title = 'Lost and Found tutorial video';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.allowFullscreen = true;
+    frameContainer.replaceChildren(iframe);
+    frameContainer.hidden = false;
+    message.classList.remove('error');
+    message.textContent = 'YouTube video embedded below.';
+  });
+}
+
 function initAuthForms() {
   const loginForm = document.getElementById('loginForm');
   loginForm?.addEventListener('submit', async (event) => {
@@ -207,6 +250,8 @@ async function renderDashboard() {
   const welcomeUser = document.getElementById('welcomeUser');
   const searchInput = document.getElementById('searchBar');
   const categoryFilter = document.getElementById('filterCategory');
+  const commentsByReport = new Map();
+  const commentsLoading = new Set();
   let currentUser;
   let reports = [];
 
@@ -259,17 +304,90 @@ async function renderDashboard() {
       appendText(body, 'p', `Category: ${report.category}`);
       appendText(body, 'p', `Location: ${report.location}`);
       appendText(body, 'p', `Date: ${report.date}`);
-      appendText(body, 'span', report.status || 'Open', 'status-badge');
-      if (report.type === 'found' && report.status === 'open' && report.ownerId !== currentUser.id) {
+      const isOwner = report.ownerId === currentUser.id;
+      const isClaimed = report.status === 'claimed';
+      appendText(
+        body,
+        'span',
+        isClaimed ? 'Claimed' : 'Not Claimed',
+        `status-badge ${isClaimed ? 'status-claimed' : 'status-not-claimed'}`,
+      );
+
+      if (isOwner) {
+        const statusForm = document.createElement('form');
+        statusForm.className = 'status-form';
+        statusForm.dataset.id = report.id;
+        const statusLabel = appendText(statusForm, 'label', 'Update claim status');
+        const statusSelect = document.createElement('select');
+        statusSelect.id = `claim-status-${report.id}`;
+        statusSelect.name = 'status';
+        statusSelect.setAttribute('aria-label', 'Claim status');
+        statusLabel.htmlFor = statusSelect.id;
+        [
+          ['not_claimed', 'Not Claimed'],
+          ['claimed', 'Claimed'],
+        ].forEach(([value, label]) => {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = label;
+          statusSelect.appendChild(option);
+        });
+        statusSelect.value = isClaimed ? 'claimed' : 'not_claimed';
+        statusForm.appendChild(statusSelect);
+        const statusButton = document.createElement('button');
+        statusButton.type = 'submit';
+        statusButton.className = 'btn-secondary';
+        statusButton.textContent = 'Save status';
+        statusForm.appendChild(statusButton);
+        body.appendChild(statusForm);
+      }
+
+      if (report.type === 'found' && !isClaimed && !isOwner) {
         const claimButton = document.createElement('button');
         claimButton.type = 'button';
         claimButton.className = 'btn-claim';
         claimButton.dataset.id = report.id;
-        claimButton.textContent = 'Claim';
+        claimButton.textContent = 'Request claim';
         body.appendChild(claimButton);
       }
+
+      const commentsSection = document.createElement('section');
+      commentsSection.className = 'comments-section';
+      appendText(commentsSection, 'h4', 'Comments');
+      const commentList = document.createElement('ul');
+      commentList.className = 'comment-list';
+      commentList.dataset.id = report.id;
+      commentList.setAttribute('aria-live', 'polite');
+      if (!commentsByReport.has(report.id)) {
+        appendText(commentList, 'li', 'Loading comments...', 'comment-empty');
+      }
+      commentsSection.appendChild(commentList);
+      if (commentsByReport.has(report.id)) {
+        renderComments(commentList, commentsByReport.get(report.id));
+      }
+      const commentForm = document.createElement('form');
+      commentForm.className = 'comment-form';
+      commentForm.dataset.id = report.id;
+      const commentInput = document.createElement('textarea');
+      commentInput.name = 'body';
+      commentInput.rows = 2;
+      commentInput.maxLength = 1000;
+      commentInput.placeholder = 'Write a comment...';
+      commentInput.setAttribute('aria-label', 'Write a comment');
+      commentInput.required = true;
+      commentForm.appendChild(commentInput);
+      const commentButton = document.createElement('button');
+      commentButton.type = 'submit';
+      commentButton.className = 'btn-secondary';
+      commentButton.textContent = 'Comment';
+      commentForm.appendChild(commentButton);
+      commentsSection.appendChild(commentForm);
+      body.appendChild(commentsSection);
       card.appendChild(body);
       itemGrid.appendChild(card);
+      if (!commentsByReport.has(report.id) && !commentsLoading.has(report.id)) {
+        loadComments(report.id, commentsByReport, commentsLoading);
+      }
     });
 
     reports.slice(0, 4).forEach((report) => {
@@ -283,6 +401,57 @@ async function renderDashboard() {
 
   searchInput?.addEventListener('input', render);
   categoryFilter?.addEventListener('change', render);
+  dashboard.addEventListener('submit', async (event) => {
+    const commentForm = event.target.closest('.comment-form');
+    if (commentForm) {
+      event.preventDefault();
+      const commentInput = commentForm.querySelector('[name="body"]');
+      const submitButton = commentForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      try {
+        const { comment } = await apiRequest(
+          `/api/reports/${encodeURIComponent(commentForm.dataset.id)}/comments`,
+          {
+            method: 'POST',
+            body: JSON.stringify({ body: commentInput.value }),
+          },
+        );
+        const commentList = commentForm.parentElement.querySelector('.comment-list');
+        const comments = commentsByReport.get(commentForm.dataset.id) || [];
+        comments.push(comment);
+        commentsByReport.set(commentForm.dataset.id, comments);
+        if (commentList) renderComments(commentList, comments);
+        commentForm.reset();
+      } catch (error) {
+        window.alert(error.message);
+      } finally {
+        submitButton.disabled = false;
+      }
+      return;
+    }
+
+    const statusForm = event.target.closest('.status-form');
+    if (!statusForm) return;
+    event.preventDefault();
+    const statusButton = statusForm.querySelector('button[type="submit"]');
+    statusButton.disabled = true;
+    try {
+      const { report: updatedReport } = await apiRequest(
+        `/api/reports/status?id=${encodeURIComponent(statusForm.dataset.id)}`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ status: statusForm.querySelector('[name="status"]').value }),
+        },
+      );
+      reports = reports.map((report) => report.id === updatedReport.id
+        ? { ...report, status: updatedReport.status }
+        : report);
+      render();
+    } catch (error) {
+      window.alert(error.message);
+      statusButton.disabled = false;
+    }
+  });
   dashboard.addEventListener('click', async (event) => {
     const claimButton = event.target.closest('.btn-claim');
     if (!claimButton) return;
@@ -299,6 +468,43 @@ async function renderDashboard() {
     }
   });
   render();
+}
+
+function renderComments(list, comments) {
+  list.replaceChildren();
+  if (!comments.length) {
+    appendText(list, 'li', 'No comments yet.', 'comment-empty');
+    return;
+  }
+  comments.forEach((comment) => appendComment(list, comment));
+}
+
+function appendComment(list, comment) {
+  const item = document.createElement('li');
+  appendText(item, 'strong', `${comment.authorName}: `);
+  item.append(document.createTextNode(comment.body));
+  list.appendChild(item);
+}
+
+async function loadComments(reportId, cache, loading) {
+  loading.add(reportId);
+  try {
+    const { comments } = await apiRequest(`/api/reports/${encodeURIComponent(reportId)}/comments`);
+    if (cache.has(reportId)) return;
+    cache.set(reportId, comments);
+    document.querySelectorAll('.comment-list').forEach((list) => {
+      if (list.dataset.id === reportId) renderComments(list, comments);
+    });
+  } catch (error) {
+    document.querySelectorAll('.comment-list').forEach((list) => {
+      if (list.dataset.id === reportId) {
+        list.replaceChildren();
+        appendText(list, 'li', error.message, 'comment-error');
+      }
+    });
+  } finally {
+    loading.delete(reportId);
+  }
 }
 
 function initLogoutButtons() {
@@ -325,6 +531,7 @@ function initNavigation() {
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initSlideshow();
+  initYouTubeEmbed();
   initAuthForms();
   initReportForm();
   renderDashboard();
