@@ -1,34 +1,27 @@
-# Capitol Lost & Found
+# Capitol Campus Lost & Found
 
-This static site uses Vercel serverless API routes and Neon PostgreSQL for
-accounts, reports, and claim requests.
+A beginner-friendly campus lost and found website made with HTML, CSS, and vanilla JavaScript. The active pages do not require student accounts, a framework, or a backend.
 
-## Deployment configuration
+## Run locally
 
-Set `DATABASE_URL` in the Vercel project as a secret for each environment you
-deploy. Use the pooled Neon connection string. Never put it in browser code,
-commit it, or share it in screenshots.
+Serve this folder with VS Code Live Server, or run `python3 -m http.server 8000` from the project folder and open `http://localhost:8000`.
 
-Each API route creates the required tables on its first request. After deploying
-the API code and setting `DATABASE_URL`, register an account to verify the
-connection. Existing browser-only accounts and sample reports are not migrated.
+## Features
 
-## API routes
+- Post lost and found item reports with optional photos.
+- Search reports and filter by type, claim status, and category.
+- Read and post comments without signing in.
+- Mark a report claimed with the creator code shown after the original poster submits it.
+- Review report counts and delete invalid reports from the admin dashboard.
+- View and enlarge the supplied Capitol University campus photo.
 
-- `POST /api/auth/register` and `POST /api/auth/login` create an HttpOnly session.
-- `POST /api/auth/logout` ends the session; `GET /api/auth/me` checks it.
-- `GET /api/reports` lists reports; authenticated users can submit with
-  `POST /api/reports`.
-- Authenticated users can request a claim with
-  `POST /api/reports/claim?id=<report-id>`.
-- `GET` and `POST /api/reports/<report-id>/comments` list and add comments.
-- The report owner can set `not_claimed` or `claimed` with
-  `POST /api/reports/status?id=<report-id>`.
+Reports, comments, and statuses are stored in the current browser's `localStorage`. They are not shared between different browsers or devices, and clearing browser data removes them. This is a classroom demo, not a production service.
 
-Passwords are hashed on the server and session tokens are stored hashed in the
-database. Image selection currently previews locally; uploaded files are not
-stored. Email verification, password recovery, moderation tools, and login
-rate-limiting still need to be added before treating this as a production service.
+## Demo admin
 
-The home page accepts a YouTube link and embeds the video using YouTube's
-privacy-enhanced embed host. The About page credits the Lost and Found Team.
+- Username: `admin@capitol.edu`
+- Password: `cuadmin2026`
+
+The demo credentials and admin session are stored in client-side JavaScript and `localStorage`, so this is not secure authentication. Do not use real personal information.
+
+The original `/api` files and account pages remain in the repository but are not used by the current public pages. Add individual student developer names to the About page before submitting if your course requires them; only the team/course information was provided for this project.

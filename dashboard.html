@@ -3,83 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Campus Lost & Found</title>
+  <title>Browse Reports | Capitol Lost & Found</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="responsive.css">
 </head>
 <body>
-
-  <!-- ===== Navbar ===== -->
   <header class="navbar">
-    <div class="logo">
-      <img src="cu-logo.jpg" alt="CU Logo" class="logo-img">
-      <span>Capitol University</span>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="report-lost.html">Report</a></li>
-        <li><a href="about.html">ABOUT</a></li>
-        <li><a href="login.html" class="btn-logout">Logout</a></li>
-      </ul>
+    <a class="brand" href="index.html"><img src="cu-logo.jpg" alt="Capitol University logo"><span>Capitol <strong>Lost & Found</strong></span></a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="dashboard.html" class="active">Browse reports</a>
+      <a href="report-lost.html?type=lost">Report lost</a><a href="report-lost.html?type=found">Report found</a>
+      <a href="about.html">About</a><a href="admin-login.html">Admin</a>
     </nav>
   </header>
 
-  <!-- ===== Dashboard ===== -->
-  <section class="dashboard">
-
-    <!-- Profile Header -->
-    <div class="profile-header">
-      <img src="cu-logo.jpg" alt="Profile" class="profile-img">
-      <div>
-        <h2 id="welcomeUser">Hello, Student!</h2>
-        <p>Campus lost and found</p>
-      </div>
-      <button class="btn-logout">Logout</button>
+  <main class="dashboard page-width">
+    <div class="page-heading">
+      <div><p class="eyebrow">CAMPUS REPORTS</p><h1>Find an item</h1><p>Search reports and share helpful information with a comment.</p></div>
+      <a class="button button-primary" href="report-lost.html?type=lost">＋ New report</a>
     </div>
 
-    <!-- Search & Filter -->
-    <div class="dashboard-search">
-      <input type="text" id="searchBar" placeholder="Search items...">
-      <select id="filterCategory">
-        <option value="">All Categories</option>
-        <option value="Wallet">Wallet</option>
-        <option value="Phone">Phone</option>
-        <option value="Laptop">Laptop</option>
-        <option value="Bag">Bag</option>
-        <option value="Keys">Keys</option>
-        <option value="Books">Books</option>
-        <option value="Umbrella">Umbrella</option>
-        <option value="Calculator">Calculator</option>
-        <option value="Clothing">Clothing</option>
-        <option value="Accessories">Accessories</option>
-        <option value="Electronics">Electronics</option>
-      </select>
-    </div>
+    <section class="filter-panel" aria-label="Search and filter reports">
+      <div class="search-control"><label for="searchBar">Search</label><input id="searchBar" type="search" placeholder="Item, category, location..."></div>
+      <div><label for="filterType">Report type</label><select id="filterType"><option value="">Lost and found</option><option value="lost">Lost</option><option value="found">Found</option></select></div>
+      <div><label for="filterStatus">Claim status</label><select id="filterStatus"><option value="">All statuses</option><option value="not_claimed">Not claimed</option><option value="claimed">Claimed</option></select></div>
+      <div><label for="filterCategory">Category</label><select id="filterCategory"><option value="">All categories</option><option>Wallet</option><option>Phone</option><option>Laptop</option><option>Bag</option><option>Keys</option><option>Umbrella</option><option>Books</option><option>Calculator</option><option>Clothing</option><option>Accessories</option><option>Electronics</option><option>Others</option></select></div>
+    </section>
 
-    <!-- Activity Timeline -->
-    <h3>Recent Activity</h3>
-    <ul class="timeline" id="activityFeed">
-      <!-- Activity items will be injected dynamically -->
-    </ul>
+    <div class="results-heading"><h2>All reports</h2><span id="reportCount" aria-live="polite">0 reports</span></div>
+    <section class="item-grid" id="itemGrid" aria-live="polite"></section>
+  </main>
 
-    <!-- All Reports -->
-    <div class="item-grid" id="itemGrid">
-      <!-- All lost, found, and claimed items will be injected dynamically -->
-    </div>
-
-    <!-- Floating Action Button -->
-    <a class="fab" href="report-lost.html" title="Add Report" aria-label="Add report">+</a>
-  </section>
-
-  <!-- ===== Footer ===== -->
-  <footer>
-    <img src="cu-logo.jpg" alt="CU Logo" class="footer-logo">
-    <p>&copy; 2026 Capitol University | Campus Lost & Found</p>
-    <p>Contact: lostfound@capitol.edu</p>
-  </footer>
-
-  <!-- JS -->
-  <script src="script.js"></script>
+  <footer class="site-footer"><img src="cu-logo.jpg" alt="Capitol University logo"><p>Capitol University Campus Lost & Found</p><a href="about.html">About this project</a></footer>
+  <script src="app.js"></script>
 </body>
 </html>

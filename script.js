@@ -526,6 +526,27 @@ function initNavigation() {
   document.querySelectorAll('.navbar a').forEach((link) => {
     if (link.getAttribute('href') === currentPage) link.classList.add('active');
   });
+
+  apiRequest('/api/auth/me')
+    .then(({ user }) => {
+      document.querySelectorAll('.navbar a').forEach((link) => {
+        if (link.classList.contains('btn-logout')) return;
+        const targetPage = link.getAttribute('href')?.split(/[?#]/, 1)[0].split('/').pop();
+        if (targetPage === 'login.html' || targetPage === 'register.html') {
+          link.hidden = Boolean(user);
+        }
+      });
+      document.querySelectorAll('.navbar .btn-logout').forEach((link) => {
+        link.hidden = !user;
+      });
+
+      if (user && (currentPage === 'login.html' || currentPage === 'register.html')) {
+        window.location.replace('dashboard.html');
+      }
+    })
+    .catch((error) => {
+      console.error('Could not check the current sign-in status:', error);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
