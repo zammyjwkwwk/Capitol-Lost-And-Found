@@ -12,7 +12,7 @@
     <a class="brand" href="index.html"><img src="cu-logo.jpg" alt="Capitol University logo"><span>Capitol <strong>Lost & Found</strong></span></a>
     <nav aria-label="Main navigation">
       <a href="index.html">Home</a><a href="dashboard.html">Browse reports</a>
-      <a href="report-lost.html?type=lost">Report lost</a><a href="report-lost.html?type=found">Report found</a>
+      <a href="report-lost.html" class="active">Report item</a>
       <a href="about.html">About</a><a href="admin-login.html">Admin</a>
     </nav>
   </header>
@@ -22,10 +22,14 @@
       <p class="eyebrow">SHARE WITH THE CAMPUS COMMUNITY</p>
       <h1 id="reportTitle">Report a Lost Item</h1>
       <p id="reportDescription">Share what you lost so the campus community can help.</p>
+      <p class="form-helper">Choose whether this report is for a lost item or a found item below.</p>
       <form id="reportForm">
         <div class="form-group">
           <label for="reportType">Report type</label>
-          <select id="reportType" name="reportType" required><option value="lost">Lost item</option><option value="found">Found item</option></select>
+          <select id="reportType" name="reportType" required>
+            <option value="lost">Lost item</option>
+            <option value="found">Found item</option>
+          </select>
         </div>
         <div class="form-group"><label for="studentName">Your name</label><input type="text" id="studentName" name="studentName" maxlength="60" required></div>
         <div class="form-group"><label for="itemTitle">Item name</label><input type="text" id="itemTitle" name="itemTitle" maxlength="100" placeholder="For example, blue water bottle" required></div>
