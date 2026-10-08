@@ -8,6 +8,71 @@ const ADMIN_ACCOUNT = {
   password: 'cuadmin2026',
 };
 
+const DEMO_REPORTS = [
+  {
+    id: 'demo-lost-wallet',
+    type: 'lost',
+    title: 'Lost wallet near the library',
+    category: 'Wallet',
+    location: 'Main Library',
+    date: '2026-10-03',
+    description: 'Black leather wallet with student ID and a few cash bills. Last seen near the library entrance.',
+    reporter: 'Maria Santos',
+    image: 'wallet.png',
+    status: 'not_claimed',
+    creatorCode: 'CU-123456',
+    comments: [
+      { name: 'Campus Security', text: 'We can check the front desk if it was turned in.', createdAt: '2026-10-03T08:30:00.000Z' },
+    ],
+    createdAt: '2026-10-03T08:00:00.000Z',
+  },
+  {
+    id: 'demo-found-phone',
+    type: 'found',
+    title: 'Found iPhone at the student center',
+    category: 'Phone',
+    location: 'Student Center',
+    date: '2026-10-04',
+    description: 'Blue phone case with a cracked screen. It was found on the table outside the cafeteria.',
+    reporter: 'Jonah Cruz',
+    image: 'phone.png',
+    status: 'not_claimed',
+    creatorCode: 'CU-654321',
+    comments: [
+      { name: 'R. Tan', text: 'I think this might be mine. I can provide the lock screen details.', createdAt: '2026-10-04T10:15:00.000Z' },
+    ],
+    createdAt: '2026-10-04T09:30:00.000Z',
+  },
+  {
+    id: 'demo-claimed-laptop',
+    type: 'found',
+    title: 'Found laptop in the engineering block',
+    category: 'Laptop',
+    location: 'Engineering Building',
+    date: '2026-10-01',
+    description: 'Silver laptop with a sticker on the lid. It was left in one of the classrooms.',
+    reporter: 'Alia Gomez',
+    image: 'laptop.png',
+    status: 'claimed',
+    creatorCode: 'CU-246810',
+    comments: [
+      { name: 'A. Reyes', text: 'This looks like my laptop. Please contact me.', createdAt: '2026-10-01T14:20:00.000Z' },
+    ],
+    createdAt: '2026-10-01T12:00:00.000Z',
+    claimedAt: '2026-10-02T09:00:00.000Z',
+  },
+];
+
+function seedDemoData() {
+  try {
+    const existing = readReports();
+    if (existing.length > 0) return;
+    saveReports(DEMO_REPORTS);
+  } catch {
+    // Ignore storage errors for presentation mode.
+  }
+}
+
 const DEFAULT_IMAGES = {
   Wallet: 'wallet.png',
   Phone: 'phone.png',
@@ -439,6 +504,7 @@ function initAdminDashboard() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  seedDemoData();
   initNavigation();
   initReportForm();
   renderDashboard();
