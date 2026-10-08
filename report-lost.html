@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report an Item | Capitol Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="index.html"><img src="cu-logo.jpg" alt="Capitol University logo"><span>Capitol <strong>Lost & Found</strong></span></a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="dashboard.html">Browse reports</a>
+      <a href="report-lost.html" class="active">Report item</a>
+      <a href="about.html">About</a><a href="admin-login.html">Admin</a>
+    </nav>
+  </header>
+
+  <main class="form-page">
+    <section class="form-section">
+      <p class="eyebrow">SHARE WITH THE CAMPUS COMMUNITY</p>
+      <h1 id="reportTitle">Report a Lost Item</h1>
+      <p id="reportDescription">Share what you lost so the campus community can help.</p>
+      <p class="form-helper">Choose whether this report is for a lost item or a found item below.</p>
+      <form id="reportForm">
+        <div class="form-group">
+          <label for="reportType">Report type</label>
+          <select id="reportType" name="reportType" required>
+            <option value="lost">Lost item</option>
+            <option value="found">Found item</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="studentName">Your name</label><input type="text" id="studentName" name="studentName" maxlength="60" required></div>
+        <div class="form-group"><label for="itemTitle">Item name</label><input type="text" id="itemTitle" name="itemTitle" maxlength="100" placeholder="For example, blue water bottle" required></div>
+        <div class="form-group"><label for="itemDescription">Description</label><textarea id="itemDescription" name="itemDescription" rows="4" maxlength="700" required></textarea></div>
+        <div class="form-group"><label for="itemCategory">Category</label><select id="itemCategory" name="itemCategory" required><option value="">Choose a category</option><option>Wallet</option><option>Phone</option><option>Laptop</option><option>Bag</option><option>Keys</option><option>Umbrella</option><option>Books</option><option>Calculator</option><option>Clothing</option><option>Accessories</option><option>Electronics</option><option>Others</option></select></div>
+        <div class="form-group"><label for="itemLocation" id="locationLabel">Last seen location</label><input type="text" id="itemLocation" name="itemLocation" maxlength="120" required></div>
+        <div class="form-group"><label for="itemDate" id="dateLabel">Date lost</label><input type="date" id="itemDate" name="itemDate" required></div>
+        <div class="form-group"><label for="itemImage">Item photo <span class="optional">(optional, up to 350 KB)</span></label><input type="file" id="itemImage" name="itemImage" accept="image/*"><img id="previewImage" src="cu-bg.png" alt="Selected item photo preview" class="preview"></div>
+        <button type="submit" class="button button-primary" id="reportSubmitBtn">Post lost item</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer"><img src="cu-logo.jpg" alt="Capitol University logo"><p>Capitol University Campus Lost & Found</p><a href="about.html">About this project</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>

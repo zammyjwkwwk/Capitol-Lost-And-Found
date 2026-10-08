@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Capitol Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="index.html"><img src="cu-logo.jpg" alt="Capitol University logo"><span>Capitol <strong>Lost & Found</strong></span></a>
+    <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="dashboard.html">Browse reports</a><a href="about.html">About</a></nav>
+  </header>
+  <main class="admin-page page-width" id="adminPanel">
+    <div class="page-heading">
+      <div><p class="eyebrow">SITE MODERATION</p><h1>Admin dashboard</h1><p>Review reports and remove invalid posts.</p></div>
+      <button class="button button-outline-dark" id="adminLogout" type="button">Log out</button>
+    </div>
+    <section class="stats-grid" id="adminStats" aria-label="Report statistics"></section>
+    <section class="admin-list-section">
+      <div class="results-heading"><h2>Submitted reports</h2><a href="dashboard.html">View public board →</a></div>
+      <div class="admin-report-list" id="adminReportList"></div>
+    </section>
+  </main>
+  <footer class="site-footer"><img src="cu-logo.jpg" alt="Capitol University logo"><p>Capitol University Campus Lost & Found</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
